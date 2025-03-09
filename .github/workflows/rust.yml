@@ -15,6 +15,19 @@ on:
       - 'kubernetes/**'
   workflow_dispatch:
 
+  jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Rust
+        uses: actions/setup-rust@v1
+      - name: Build
+        run: cargo build --release
+      - name: Run Tests
+        run: cargo test
+
 # This allows a subsequently queued workflow run to interrupt previous runs on pull-requests
 concurrency:
   group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.head_ref || github.run_id }}'
